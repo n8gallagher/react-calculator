@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ChakraProvider,
   Box,
@@ -13,40 +13,46 @@ import { ColorModeSwitcher } from '../../src/ColorModeSwitcher';
 import CalcFunctions from '../CalcFunctions';
 
 const Calculator = () => {
-  debugger
-  const numberButtons = document.querySelectorAll('[data-number]')
-  const operationButtons = document.querySelectorAll('[data-operation]')
-  const equalsButton = document.querySelector('[data-equals]')
-  const clearButton = document.querySelector('[data-clear]')
-  const previousOperandTextElement = document.querySelector('[data-previous-operand]')
-  const currentOperandTextElement = document.querySelector('[data-current-operand]')
   
-  const calc = new CalcFunctions(previousOperandTextElement, currentOperandTextElement);
+  useEffect( () => {
 
-  numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      calc.appendNumber(button.innerText)
-      calc.updateDisplay();
+    const numberButtons = document.querySelectorAll('[data-number]')
+    const operationButtons = document.querySelectorAll('[data-operation]')
+    const equalsButton = document.querySelector('[data-equals]')
+    const clearButton = document.querySelector('[data-clear]')
+    const previousOperandTextElement = document.querySelector('[data-previous-operand]')
+    const currentOperandTextElement = document.querySelector('[data-current-operand]')
+    
+    const calc = new CalcFunctions(previousOperandTextElement, currentOperandTextElement);
+    
+    numberButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        calc.appendNumber(button.innerText)
+        calc.updateDisplay();
+        
+      })
+    })
+    
+    operationButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        calc.chooseOperation(button.innerText)
+        calc.updateDisplay();
+      })
+    })
+    
+    equalsButton.addEventListener('click', button => {
+      calc.compute()
+      calc.updateDisplay()
       console.log('test1')
     })
-  })
   
-  operationButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      calc.chooseOperation(button.innerText)
-      calc.updateDisplay();
+    clearButton.addEventListener('click', button => {
+      calc.clear()
+      calc.updateDisplay()
     })
   })
-  
-  // equalsButton.addEventListener('click', button => {
-  //   calc.compute()
-  //   calc.updateDisplay()
-  // })
 
-  // clearButton.addEventListener('click', button => {
-  //   calc.clear()
-  //   calc.updateDisplay()
-  // })
+  
 
   
 
