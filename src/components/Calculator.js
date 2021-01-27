@@ -1,27 +1,52 @@
 import React, { useEffect } from 'react';
 import {
-  ChakraProvider,
+  ThemeProvider,
   Box,
   Text,
   Flex,
+  useColorMode,
   Button,
   Grid,
   GridItem,
-  theme
+  Switch,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../../src/ColorModeSwitcher';
 import CalcFunctions from '../CalcFunctions';
+import ToggleButton from './ColorPicker';
+import { FaRegBell } from 'react-icons/fa';
+import {ColorFunctions} from './ColorFunctions';
 
 const Calculator = () => {
-  
+
+  const { setColorMode } = useColorMode();
+  // const [colorMode, setColorMode] = React.useState(null) -- for many color themes
+  // setColorMode(‘red’); setColorMode(‘negative’)
+
+  // const { colorMode, toggleColorMode } = useColorMode();
+  // const dynamicColor = (value) => {
+  //   switch (value) {
+  //     case "red":
+  //       return "rgb(255, 0, 0)"
+  //     case "blue":
+  //       return "rgb(0, 0, 255)"
+  //     case "green":
+  //       return "rgb(0, 255, 0)"
+  //     case "yellow":
+  //       return "rgb(255, 255, 0)"
+  //     default:
+  //       break;
+  //   } 
+  // }
   useEffect( () => {
 
     const numberButtons = document.querySelectorAll('[data-number]')
     const operationButtons = document.querySelectorAll('[data-operation]')
     const equalsButton = document.querySelector('[data-equals]')
+    const darkButton = document.querySelector('[data-dark]')
     const clearButton = document.querySelector('[data-clear]')
     const previousOperandTextElement = document.querySelector('[data-previous-operand]')
     const currentOperandTextElement = document.querySelector('[data-current-operand]')
+
     
     const calc = new CalcFunctions(previousOperandTextElement, currentOperandTextElement);
     
@@ -50,14 +75,16 @@ const Calculator = () => {
       calc.clear()
       calc.updateDisplay()
     })
+
+    darkButton.addEventListener('click', button => {
+      // if(){}
+      
+      // ColorFunctions(value, setColorMode);
+    })
   })
-
   
-
-  
-
   return (
-    <ChakraProvider theme={theme}>
+    <Box>
       
       <Flex direction='column' m='5px' align='center'>
         <Box border="1px" borderColor="gray.200" borderRadius="md" w='190px' height='60px' textAlign='right'>
@@ -76,10 +103,10 @@ const Calculator = () => {
           gap={0.2}
           p='5px'
         >
-          <GridItem><Button data-number fontWeight='bold'>(</Button></GridItem>
-          <GridItem><Button data-number fontWeight='bold'>)</Button></GridItem>
-          <GridItem><Button data-operation fontWeight='bold'>÷</Button></GridItem>
+          <GridItem><Button size='md' width='20px' colorScheme='orange' data-dark fontWeight='bold'>🌙</Button></GridItem>
+          <GridItem><Button variant='red' data-delete fontWeight='bold'>CE</Button></GridItem>
           <GridItem><Button data-clear fontWeight='bold'>C</Button></GridItem>
+          <GridItem><Button data-operation fontWeight='bold'>÷</Button></GridItem>
           <GridItem><Button data-number>7</Button></GridItem>
           <GridItem><Button data-number>8</Button></GridItem>
           <GridItem><Button data-number>9</Button></GridItem>
@@ -98,8 +125,8 @@ const Calculator = () => {
         </Grid>
       </Flex>
       
-
-      </ChakraProvider>
+      <ToggleButton />
+    </Box>
   )
 }
 
